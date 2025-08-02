@@ -43,3 +43,11 @@
         msg: "System upgrade completed. {{ upgrade_result.changed | ternary('Packages were updated', 'No packages needed updating') }}"
       tags:
         - system_update
+
+- name: Disable swap for k8s instances
+  hosts: k8s_instances
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - disable_swap

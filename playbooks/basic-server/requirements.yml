@@ -1,0 +1,5 @@
+---
+- name: disable_swap
+  src: git@github.com:diedomin/ansible.disable_swap.git
+  scm: git
+  version: master
