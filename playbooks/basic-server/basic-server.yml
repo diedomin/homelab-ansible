@@ -1,0 +1,45 @@
+---
+- name: Basic Server Setup
+  hosts: all
+  become: yes
+  gather_facts: yes
+
+  vars_files:
+    - vars/main.yml
+    - vars/secrets.yml
+
+  vars:
+    sudo_user: "{{ ansible_user }}"
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+        cache_valid_time: 3600
+      tags:
+        - system_update
+
+    - name: Upgrade all packages to the latest version
+      apt:
+        upgrade: dist
+        autoremove: yes
+        autoclean: yes
+      register: upgrade_result
+      tags:
+        - system_update
+
+    - name: Configure passwordless sudo for the user
+      lineinfile:
+        path: /etc/sudoers.d/{{ sudo_user }}
+        line: "{{ sudo_user }} ALL=(ALL) NOPASSWD:ALL"
+        create: yes
+        mode: "0440"
+        validate: "visudo -cf %s"
+      tags:
+        - sudo_config
+
+    - name: Display upgrade results
+      debug:
+        msg: "System upgrade completed. {{ upgrade_result.changed | ternary('Packages were updated', 'No packages needed updating') }}"
+      tags:
+        - system_update

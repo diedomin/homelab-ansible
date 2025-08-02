@@ -1,0 +1,2 @@
+update_system: true
+enable_passwordless_sudo: true

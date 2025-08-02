@@ -1,0 +1,78 @@
+# Ansible Vault password files
+.vault_pass
+.ansible_vault_pass
+vault_password.txt
+vault-password.txt
+ansible-vault-password
+
+# Ansible logs and temporary files
+*.log
+*.retry
+.ansible/
+ansible.log
+
+# SSH keys and certificates
+*.pem
+*.key
+id_rsa*
+id_ecdsa*
+id_ed25519*
+*.crt
+*.csr
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary and cache files
+*.tmp
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+
+# Virtual environments
+venv/
+env/
+.venv/
+.env/
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-*
+.atom/
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Terraform files (if used alongside Ansible)
+*.tfstate
+*.tfstate.*
+.terraform/
+terraform.tfvars
+
+# Inventory backup files
+inventory.bak
+hosts.bak
+
+# Custom secrets and sensitive files
+secrets/
+credentials/
+private/
+.secrets
