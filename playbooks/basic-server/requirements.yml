@@ -3,3 +3,8 @@
   src: git@github.com:diedomin/ansible.disable_swap.git
   scm: git
   version: master
+
+- name: node_exporter
+  src: git@github.com:diedomin/ansible.node-exporter.git
+  scm: git
+  version: master

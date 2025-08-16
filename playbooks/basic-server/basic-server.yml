@@ -4,14 +4,10 @@
   become: yes
   gather_facts: yes
 
-  vars_files:
-    - vars/main.yml
-    - vars/secrets.yml
-
   vars:
     sudo_user: "{{ ansible_user }}"
 
-  tasks:
+  pre_tasks:
     - name: Update apt cache
       apt:
         update_cache: yes
@@ -44,10 +40,16 @@
       tags:
         - system_update
 
+- name: Install node-exporter for standalone instances
+  hosts: standalone
+  become: yes
+  gather_facts: yes
+  roles:
+    - node_exporter
+
 - name: Disable swap for k8s instances
   hosts: k8s_instances
   become: yes
   gather_facts: yes
-
   roles:
     - disable_swap
