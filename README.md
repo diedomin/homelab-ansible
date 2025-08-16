@@ -2,6 +2,10 @@
 
 Ansible automation for my homelab infrastructure. This repository contains playbooks and roles to set up and manage various types of servers in my home environment.
 
+![GitHub](https://img.shields.io/github/license/diedomin/homelab-ansible?style=flat-square)
+![GitHub Repo stars](https://img.shields.io/github/stars/diedomin/homelab-ansible?style=flat-square)
+![GitHub last commit](https://img.shields.io/github/last-commit/diedomin/homelab-ansible?style=flat-square)
+
 ## Structure
 
 ```
