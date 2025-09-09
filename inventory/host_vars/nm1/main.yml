@@ -1,0 +1,11 @@
+alloy_enable_journald: true
+alloy_journal_matches:
+  - _SYSTEMD_UNIT=ssh.service
+
+alloy_enable_docker: false
+alloy_enable_kernel: true
+alloy_enable_file_logs: true
+alloy_file_targets:
+  - path: "/var/log/syslog"
+    labels:
+      service: "syslog"

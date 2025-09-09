@@ -1,0 +1,23 @@
+#Alloy variables
+create_diego_user: true
+alloy_enable_docker: true
+alloy_docker_filter_services:
+  - uptime-kuma
+alloy_docker_filter_statuses:
+  - running
+
+alloy_enable_journald: true
+alloy_journal_matches:
+  - _SYSTEMD_UNIT=ssh.service
+
+alloy_enable_kernel: true
+alloy_enable_file_logs: true
+alloy_file_targets:
+  - path: "/var/log/syslog"
+    labels:
+      service: "syslog"
+
+# Docker Variables
+docker_create_user: true
+docker_user_name: docker
+docker_users: [diego, docker]
