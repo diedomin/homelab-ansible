@@ -8,3 +8,8 @@
   src: git@github.com:diedomin/ansible.node-exporter.git
   scm: git
   version: master
+
+- name: grafana_alloy
+  src: git@github.com:diedomin/ansible.grafana_alloy.git
+  scm: git
+  version: master

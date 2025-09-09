@@ -1,0 +1,78 @@
+---
+- name: Uptime Kuma
+  hosts: uptime_kuma
+  become: yes
+  gather_facts: yes
+
+  roles:
+    - docker
+
+  tasks:
+    - name: Create docker user home directory
+      ansible.builtin.file:
+        path: /home/docker
+        state: directory
+        owner: docker
+        group: docker
+        mode: "0755"
+
+    - name: Create uptime-kuma directory structure
+      ansible.builtin.file:
+        path: /home/docker/uptime-kuma
+        state: directory
+        owner: docker
+        group: docker
+        mode: "0755"
+
+    - name: Create docker-compose.yml for uptime-kuma
+      ansible.builtin.copy:
+        content: |
+          services:
+            uptime-kuma:
+              image: louislam/uptime-kuma:1
+              container_name: uptime-kuma
+              restart: always
+              ports:
+                - "3001:3001"
+              volumes:
+                - uptime-kuma:/app/data
+              networks:
+                - uptime-kuma-network
+
+          volumes:
+            uptime-kuma:
+
+          networks:
+            uptime-kuma-network:
+              driver: bridge
+        dest: /home/docker/uptime-kuma/docker-compose.yml
+        owner: docker
+        group: docker
+        mode: "0644"
+
+    - name: Start uptime-kuma with docker-compose
+      community.docker.docker_compose_v2:
+        project_src: /home/docker/uptime-kuma
+        state: present
+      become_user: docker
+
+    - name: Wait for uptime-kuma to be ready
+      ansible.builtin.wait_for:
+        port: 3001
+        host: localhost
+        delay: 10
+        timeout: 60
+
+    - name: Verify uptime-kuma is running
+      ansible.builtin.uri:
+        url: http://localhost:3001
+        method: GET
+        status_code: 200
+      register: uptime_kuma_status
+      retries: 3
+      delay: 5
+
+    - name: Display uptime-kuma status
+      ansible.builtin.debug:
+        msg: "Uptime Kuma is running successfully at http://{{ ansible_default_ipv4.address }}:3001"
+      when: uptime_kuma_status.status == 200

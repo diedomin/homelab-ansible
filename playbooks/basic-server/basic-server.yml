@@ -12,8 +12,7 @@
       apt:
         update_cache: yes
         cache_valid_time: 3600
-      tags:
-        - system_update
+      when: update_system | bool
 
     - name: Upgrade all packages to the latest version
       apt:
@@ -21,8 +20,7 @@
         autoremove: yes
         autoclean: yes
       register: upgrade_result
-      tags:
-        - system_update
+      when: update_system | bool
 
     - name: Configure passwordless sudo for the user
       lineinfile:
@@ -31,21 +29,20 @@
         create: yes
         mode: "0440"
         validate: "visudo -cf %s"
-      tags:
-        - sudo_config
+      when: enable_passwordless_sudo | bool
 
     - name: Display upgrade results
       debug:
         msg: "System upgrade completed. {{ upgrade_result.changed | ternary('Packages were updated', 'No packages needed updating') }}"
-      tags:
-        - system_update
+      when: update_system | bool
 
-- name: Install node-exporter for standalone instances
+- name: Install exporters for standalone instances
   hosts: standalone
   become: yes
   gather_facts: yes
   roles:
     - node_exporter
+    - grafana_alloy
 
 - name: Disable swap for k8s instances
   hosts: k8s_instances
