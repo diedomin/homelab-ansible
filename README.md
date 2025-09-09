@@ -51,6 +51,7 @@ The playbook uses different host groups:
 This project uses custom roles hosted on GitHub:
 - [disable_swap](https://github.com/diedomin/ansible.disable_swap) - Disables swap for Kubernetes nodes
 - [node_exporter](https://github.com/diedomin/ansible.node-exporter) - Installs Prometheus node-exporter
+- [grafana_alloy](https://github.com/diedomin/ansible.grafana_alloy) - Install and configure Grafana Alloy as a systemd service
 
 ## Configuration
 
